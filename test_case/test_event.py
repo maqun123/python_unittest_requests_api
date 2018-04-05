@@ -10,7 +10,7 @@ class get_request(unittest.TestCase):
     def test_post_01(self):
         url=self.get_url
         r = requests.get(url)
-        print(json.dumps(r.json(), indent=4))
+        print(json.dumps(r.json(), indent=4,ensure_ascii=0))
         assert r.status_code == 200
 
     def tearDown(self):
