@@ -1,38 +1,23 @@
-# coding=utf-8
-import unittest
-import HTMLTestReportCN
-import time
+# coding: utf-8
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-# 相对路径
-test_dir ='./test_case'
-test_dir1 ='./report'
-discover = unittest.defaultTestLoader.discover(test_dir, pattern='test*.py')
-# 定义带有当前测试时间的报告，防止前一次报告被覆盖
-now = time.strftime("%Y-%m-%d%H_%M_%S")
-filename = test_dir1 + '/' + now + 'result.html'
-# 二进制打开，准备写入文件
-fp = open(filename, 'wb')
-# 定义测试报告
-runner = HTMLTestReportCN.HTMLTestRunner(stream=fp, title=u'测试报告', description=u'用例执行情况')
-runner.run(discover)
-
-
+from email.mime.image import MIMEImage
+from email.header import Header
 
 # 设置smtplib所需的参数
 # 下面的发件人，收件人是用于邮件传输的。
 smtpserver = 'smtp.126.com'
 username = 'zfighter'
-password = ''
+password = ' '
 sender = 'zfighter@126.com'
-
+# receiver='XXX@126.com'
 # 收件人为多个收件人
 receiver = ['873625226@qq.com']
 
-subject = 'Python test api result'
+subject = 'Python test  api  result'
+
 # 通过Header对象编码的文本，包含utf-8编码信息和Base64编码信息。以下中文名测试ok
 # subject = '中文标题'
 # subject=Header(subject, 'utf-8').encode()
@@ -48,13 +33,28 @@ msg['To'] = ";".join(receiver)
 # msg['Date']='2012-3-16'
 
 # 构造文字内容
-text = "测试报告"
+text = "构造文字内容"
 text_plain = MIMEText(text, 'plain', 'utf-8')
 msg.attach(text_plain)
 
-# 构造附件
-sendfile = open(filename, 'rb').read()
 
+html = """
+<html>  
+  <head></head>  
+  <body>  
+    <p>Hi!<br>  
+       How are you?<br>  
+       Here is the <a href="http://www.baidu.com">link</a> you wanted.<br> 
+    </p> 
+  </body>  
+</html>  
+"""
+text_html = MIMEText(html, 'html', 'utf-8')
+text_html["Content-Disposition"] = 'attachment; filename="texthtml.html"'
+msg.attach(text_html)
+
+# 构造附件
+sendfile = open(r'D:\pythontest\2018-04-0519_54_02result.html', 'rb').read()
 text_att = MIMEText(sendfile, 'base64', 'utf-8')
 text_att["Content-Type"] = 'application/octet-stream'
 # 以下附件可以重命名成aaa.txt

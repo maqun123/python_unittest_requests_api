@@ -20,7 +20,6 @@ class post_request(unittest.TestCase):
         data = self.date# 根据实际内容，自己填写
         # 将data序列化为json格式数据，传递给data参数
         r = requests.post(url, data=json.dumps(data), headers=header)
-
         print(json.dumps(r.text))
 
     def test_post_02(self):
@@ -28,10 +27,7 @@ class post_request(unittest.TestCase):
         url = self.post_url
         header = self.header
         data = self.date  # 根据实际内容，自己填写
-
-        r = self.session.post(url, data=json.dumps(data), headers=header)
-
-        result = r.json()
+        self.session.post(url, data=json.dumps(data), headers=header)
 
         session_response = self.session.get('https://test.bmqb.com/account/my_assets')
         my_assets = session_response.json()

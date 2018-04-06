@@ -1,6 +1,7 @@
 import unittest
 import requests
 import json
+from pprint import pprint
 
 login_data = {'mobile': '18217152656', 'password': '111111'}
 headers = {'content-type': 'application/json','X-Token': 'mobile', 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
@@ -14,6 +15,10 @@ class MyTestCase(unittest.TestCase):
                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
         session = requests.Session()  # 自动处理cookie
         r = session.post("https://test.bmqb.com/account/login", headers=headers, data=json.dumps(login_data))
+
+        print(u'\n3、请求参数:')
+        pprint(json.dumps(login_data))
+
         # 获取发送的session
         result = r.json()
         session_response = session.get('https://test.bmqb.com/account/my_assets')
